@@ -13,6 +13,7 @@ function App() {
   const [isGameStart, setisGameStart] = useState(false);
   const [completedDeck, setCompletedDeck] = useState(0);
   const [move, setMove] = useState(0);
+  const [point, setPoint] = useState(500);
 
   /* Start Game */
   useEffect(() => {
@@ -26,7 +27,6 @@ function App() {
       const { copyStacks, copyDecks } = createStacks();
       setDecks(copyDecks);
       setStacks(copyStacks);
-      // setMoveHistory({ deckHistory: copyDecks, stackHistory: copyStacks });
       setisGameStart(false);
     }
   }, [isGameStart]);
@@ -39,6 +39,7 @@ function App() {
     setDecks(allDeck);
     setCompletedDeck(0);
     setMove(0);
+    setPoint(500);
     setisGameStart(true);
   };
 
@@ -85,7 +86,6 @@ function App() {
 
     setDecks(decks);
     setStacks(stacks.map((stack, i) => ({ ...stack, cards: [...stack.cards, deal[i]] })));
-    // setMoveHistory({ deckHistory: decks, stackHistory: stacks });
   };
 
 
@@ -93,7 +93,7 @@ function App() {
   useEffect(() => {
     checkCompletedDeck();
     if (completedDeck === 8) {
-      showWonPopup(restart);
+      showWonPopup(restart, point);
     }
   }, [stacks]);
 
@@ -119,6 +119,7 @@ function App() {
               )
             );
             setCompletedDeck((prev) => prev + 1);
+            setPoint(prev => prev + 100);
           }
         }
       });
@@ -140,11 +141,11 @@ function App() {
     return true;
   };
 
-
   return (
     <>
       <div className="game__info">
         <h2>Completed Deck: {completedDeck}/8</h2>
+        <h2>Total Point: {point}</h2>
         <h2>Moves: {move}</h2>
       </div>
       <div className="game__board">
@@ -166,7 +167,8 @@ function App() {
                 stacks={stacks}
                 stackItems={stack}
                 setStacks={setStacks}
-                setMove={setMove}      
+                setMove={setMove}
+                setPoint={setPoint}  
                 key={i}
               />
             ))}

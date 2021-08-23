@@ -12,10 +12,10 @@ export const showError = (message = 'Invalid Operation!') => {
   });
 };
 
-export const showWonPopup = (restart) => {
+export const showWonPopup = (restart, score) => {
   Swal.fire({
-    title: '<h1>🎉🎉</h1>',
-    html: '<h2>You Won!</h2>',
+    title: '<h2>🎉 WON 🎉</h2>',
+    html: `<h3>Your score: ${score}</h3>`,
     showCancelButton: true,
     confirmButtonText: `Restart`,
     showCloseButton: true,

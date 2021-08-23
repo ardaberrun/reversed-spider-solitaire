@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import { showError } from '../utils/toaster';
 
-function Stack({ CARD_BACK ,stackItems, setStacks, stacks, checkDifferenceOfCardValues, setMove }) {
+function Stack({ CARD_BACK ,stackItems, setStacks, stacks, checkDifferenceOfCardValues, setMove, setPoint }) {
 
   const drag = (e, cardIdx) => {
     const transferItem = stackItems.cards.slice(cardIdx);
@@ -52,6 +52,7 @@ function Stack({ CARD_BACK ,stackItems, setStacks, stacks, checkDifferenceOfCard
     if (!withoutParsedData.length) {
       showError();
       setMove(prev => prev + 1);
+      setPoint(prev => prev - 1);
       return;
     }
     
@@ -69,12 +70,14 @@ function Stack({ CARD_BACK ,stackItems, setStacks, stacks, checkDifferenceOfCard
     if (findedStack.cards.length && findedStack.cards[findedStack.cards.length - 1].value - data.item[0].value !== 1) {
       showError();
       setMove(prev => prev + 1);
+      setPoint(prev => prev - 1);
       return;
     } else {
       setStacks(
         stacks.map((stack) => {
           if (stack.id === (e.target.parentNode.id || e.target.id)) {
             setMove(prev => prev +  1);
+            setPoint(prev => prev - 1);
             // dragged items are add to the stack
             return { ...stack, cards: [...stack.cards, ...data.item] };
           } else if (stack.id === data.parentId) {
@@ -84,8 +87,6 @@ function Stack({ CARD_BACK ,stackItems, setStacks, stacks, checkDifferenceOfCard
           }
         })
       );
-
-      // setMoveHistory(prev => ({...prev, stackHistory: stacks}));
     }
   };
 
